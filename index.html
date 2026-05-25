@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MT5 Perfect Dark Mode</title>
+    <title>MT5 Android Dark Mode Fixed</title>
+    <!-- 引入谷歌精细字体图标库，确保在所有安卓 WebView 下不失真渲染 -->
+    <link href="https://googleapis.com" rel="stylesheet" />
     <style>
         @import url('https://googleapis.com');
         
@@ -11,7 +13,7 @@
             margin: 0;
             padding: 0;
             background-color: #000000;
-            font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Roboto', -apple-system, sans-serif;
             color: #ffffff;
             user-select: none;
             width: 100%;
@@ -25,19 +27,19 @@
         .header-total {
             position: relative;
             text-align: center;
-            padding: 18px 0 14px 0;
+            padding: 16px 0 12px 0;
             border-bottom: 0.5px solid #1c1c1e;
         }
         .total-amount {
             color: #2f80ed;
-            font-size: 22px;
+            font-size: 21px;
             font-weight: 700;
-            letter-spacing: -0.3px;
+            letter-spacing: -0.2px;
         }
         .plus-icon {
             position: absolute;
-            right: 16px;
-            top: 14px;
+            right: 18px;
+            top: 12px;
             font-size: 26px;
             color: #2f80ed;
             font-weight: 300;
@@ -51,17 +53,16 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
         .info-label {
-            font-size: 15px;
+            font-size: 14px;
             color: #8e8e93;
         }
         .info-value {
-            font-size: 15px;
+            font-size: 14px;
             color: #ffffff;
-            font-weight: 600;
-            letter-spacing: -0.2px;
+            font-weight: 700;
         }
         .negative {
             color: #ff453a !important;
@@ -69,16 +70,18 @@
 
         /* Positions 栏 */
         .positions-bar {
-            background-color: #1c1c1e;
-            padding: 6px 16px;
+            background-color: #151517;
+            padding: 8px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-top: 0.5px solid #1c1c1e;
+            border-bottom: 0.5px solid #1c1c1e;
         }
         .positions-title {
             font-size: 13px;
-            color: #aeaeae;
-            font-weight: 600;
+            color: #8e8e93;
+            font-weight: 500;
         }
         .more-dots {
             color: #8e8e93;
@@ -92,13 +95,13 @@
             flex: 1;
             overflow-y: auto;
             background-color: #000000;
-            padding-bottom: 80px; 
+            padding-bottom: 70px; 
         }
         .order-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
+            padding: 14px 16px;
             border-bottom: 0.5px solid #1c1c1e;
         }
         .order-left {
@@ -107,7 +110,7 @@
         }
         .order-title-row {
             font-size: 15px;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
         }
         .symbol-name {
             font-weight: 700;
@@ -116,7 +119,7 @@
         .type-sell {
             color: #ff453a;
             font-weight: 500;
-            margin-left: 4px;
+            margin-left: 6px;
             font-size: 14px;
         }
         .price-row {
@@ -124,29 +127,27 @@
             color: #8e8e93;
         }
         .arrow {
-            margin: 0 4px;
+            margin: 0 5px;
             color: #8e8e93;
         }
         .order-right {
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 17px;
+            font-weight: 700;
             color: #2f80ed;
-            letter-spacing: -0.2px;
         }
 
-        /* 底部导航栏：完美像素级还原真机样式 */
+        /* 底部导航栏：全新重构版，彻底锁定图标形状 */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 64px;
-            background-color: #121212;
+            height: 56px;
+            background-color: #0d0d0e;
             border-top: 0.5px solid #1c1c1e;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding-bottom: 12px;
             box-sizing: border-box;
             z-index: 999;
         }
@@ -154,36 +155,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #636366; /* 仿 iOS 未激活灰色 */
+            color: #727274;
             font-size: 10px;
-            font-weight: 400;
             width: 20%;
-            position: relative;
         }
         .nav-item.active {
-            color: #2f80ed; /* 激活高亮蓝色 */
+            color: #2f80ed; /* 激活的高亮蓝 */
         }
-        .nav-icon-svg {
-            width: 24px;
-            height: 24px;
+        /* 强制调用超细线条模式，防止过粗 */
+        .material-symbols-outlined {
+            font-size: 22px;
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
             margin-bottom: 2px;
-        }
-        
-        /* 针对真机 Settings 右上角红色数字 6 提示角标 */
-        .badge {
-            position: absolute;
-            top: -2px;
-            right: 18px;
-            background-color: #ff3b30;
-            color: #ffffff;
-            font-size: 10px;
-            font-weight: 700;
-            border-radius: 50%;
-            width: 14px;
-            height: 14px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
     </style>
 </head>
@@ -225,7 +208,7 @@
         <span class="more-dots">...</span>
     </div>
 
-    <!-- 4. 持仓列表 (如需更多行可直接向下复制) -->
+    <!-- 4. 持仓列表 -->
     <div class="order-list">
         <div class="order-item">
             <div class="order-left">
@@ -267,46 +250,40 @@
         </div>
     </div>
 
-    <!-- 5. 底部像素级高仿原生导航栏 -->
+    <!-- 5. 底部高仿安卓原生导航栏 -->
     <div class="bottom-nav">
         <!-- Quotes -->
         <div class="nav-item">
-            <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="5" width="6" height="6" rx="1" />
-                <path d="M6 11v8M4 16l2 3 2-3" />
-                <rect x="15" y="13" width="6" height="6" rx="1" />
-                <path d="M18 13V5M16 8l2-3 2 3" />
-            </svg>
+            <span class="material-symbols-outlined">swap_vert</span>
             <div>Quotes</div>
         </div>
         <!-- Chart -->
         <div class="nav-item">
-            <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="6" y1="20" x2="6" y2="10" />
-                <line x1="12" y1="20" x2="12" y2="4" />
-                <line x1="18" y1="20" x2="18" y2="13" />
-                <path d="M3 12l6-5 6 7 6-8" />
-            </svg>
+            <span class="material-symbols-outlined">monitoring</span>
             <div>Chart</div>
         </div>
         <!-- Trade (高亮激活) -->
         <div class="nav-item active">
-            <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="16" rx="2" />
-                <path d="M7 14l3-3 4 3 4-4" />
-            </svg>
+            <span class="material-symbols-outlined">analytics</span>
             <div>Trade</div>
         </div>
         <!-- History -->
         <div class="nav-item">
-            <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="9" />
-                <polyline points="12 7 12 12 15 14" />
-                <path d="M12 3a9 9 0 0 1 6 3" stroke-dasharray="2 2"/>
-            </svg>
+            <span class="material-symbols-outlined">history</span>
             <div>History</div>
         </div>
-        <!-- Settings -->
+        <!-- Messages -->
         <div class="nav-item">
-            <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="3" />
+            <span class="material-symbols-outlined">adjust</span>
+            <div>Messages</div>
+        </div>
+    </div>
+
+    <!-- 双击屏幕任何空白区域强制获取最新内容 -->
+    <script>
+        document.body.addEventListener('dblclick', function() {
+            window.location.reload(true);
+        });
+    </script>
+</body>
+</html>
