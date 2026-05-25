@@ -3,21 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MT5 Pure Dark Mode</title>
+    <title>MT5 Pure Dark Mode Perfect</title>
     <style>
         @import url('https://googleapis.com');
         
-        body {
+        /* 核心修复：让网页背景变灰，在中间强制画一个独立的手机屏幕 */
+        html, body {
             margin: 0;
             padding: 0;
-            background-color: #000000;
+            background-color: #1c1c1e; /* 电脑端周围变深灰，衬托手机界面 */
             font-family: 'Roboto', -apple-system, sans-serif;
-            color: #ffffff;
-            user-select: none;
             width: 100%;
             height: 100vh;
             display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* 模拟一台标准的安卓手机容器 */
+        .phone-container {
+            width: 100%;
+            max-width: 412px; /* 严格限制最大宽度为标准安卓手机尺寸 */
+            height: 100%;
+            max-height: 860px; /* 严格限制最大高度 */
+            background-color: #000000; /* 手机内部纯黑 */
+            box-shadow: 0 0 30px rgba(0,0,0,0.7);
+            position: relative;
+            display: flex;
             flex-direction: column;
+            overflow: hidden;
             box-sizing: border-box;
         }
 
@@ -93,7 +108,7 @@
             flex: 1;
             overflow-y: auto;
             background-color: #000000;
-            padding-bottom: 75px; 
+            padding-bottom: 65px; /* 留出底部空间 */
         }
         .order-item {
             display: flex;
@@ -134,13 +149,13 @@
             color: #2f80ed;
         }
 
-        /* 纯CSS纯手工手绘安卓原生底部导航栏 (无任何外部资源请求，永远不会丢失) */
+        /* 核心修正：让底部栏相对于手机容器定位，不再往电脑屏幕最底下掉 */
         .bottom-nav {
-            position: fixed;
+            position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 60px;
+            height: 56px;
             background-color: #0c0c0d;
             border-top: 0.5px solid #1c1c1e;
             display: flex;
@@ -162,7 +177,6 @@
             color: #2f80ed;
         }
         
-        /* 纯手工像素绘图区 */
         .icon-box {
             width: 22px;
             height: 22px;
@@ -170,10 +184,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
         }
         
-        /* Quotes手绘细线条 */
+        /* Quotes */
         .icon-quotes {
             width: 14px;
             height: 14px;
@@ -185,7 +198,6 @@
             content: '';
             position: absolute;
             top: 2px; left: -4px;
-            width: 0; height: 0;
             border-left: 3px solid transparent;
             border-right: 3px solid transparent;
             border-bottom: 4px solid #727274;
@@ -194,13 +206,12 @@
             content: '';
             position: absolute;
             bottom: 2px; right: -4px;
-            width: 0; height: 0;
             border-left: 3px solid transparent;
             border-right: 3px solid transparent;
             border-top: 4px solid #727274;
         }
 
-        /* Chart手绘细线条K线 */
+        /* Chart */
         .icon-chart {
             width: 16px;
             height: 14px;
@@ -225,7 +236,7 @@
             transform: rotate(15deg);
         }
 
-        /* Trade蓝色高亮专属面板 */
+        /* Trade */
         .icon-trade {
             width: 16px;
             height: 13px;
@@ -243,7 +254,7 @@
             transform: rotate(10deg);
         }
 
-        /* History环形钟表 */
+        /* History */
         .icon-history {
             width: 14px;
             height: 14px;
@@ -266,7 +277,7 @@
             background-color: #727274;
         }
 
-        /* Messages双重同心圆 */
+        /* Messages */
         .icon-messages {
             width: 14px;
             height: 14px;
@@ -287,61 +298,50 @@
 </head>
 <body>
 
-    <!-- 1. 顶部总盈利 -->
-    <div class="header-total">
-        <span class="total-amount">33 820.00 USD</span>
-        <span class="plus-icon">+</span>
-    </div>
+    <!-- 外层包裹手机容器 -->
+    <div class="phone-container">
 
-    <!-- 2. 资金数据面板 -->
-    <div class="account-info">
-        <div class="info-row">
-            <span class="info-label">Balance:</span>
-            <span class="info-value">2 031.36</span>
+        <!-- 1. 顶部总盈利 -->
+        <div class="header-total">
+            <span class="total-amount">33 820.00 USD</span>
+            <span class="plus-icon">+</span>
         </div>
-        <div class="info-row">
-            <span class="info-label">Equity:</span>
-            <span class="info-value">35 851.36</span>
-        </div>
-        <div class="info-row">
-            <span class="info-label">Margin:</span>
-            <span class="info-value">50 419.03</span>
-        </div>
-        <div class="info-row">
-            <span class="info-label">Free Margin:</span>
-            <span class="info-value negative">-14 567.67</span>
-        </div>
-        <div class="info-row">
-            <span class="info-label">Margin Level (%):</span>
-            <span class="info-value">71.11</span>
-        </div>
-    </div>
 
-    <!-- 3. Positions 横条 -->
-    <div class="positions-bar">
-        <span class="positions-title">Positions</span>
-        <span class="more-dots">...</span>
-    </div>
-
-    <!-- 4. 持仓列表 -->
-    <div class="order-list">
-        <div class="order-item">
-            <div class="order-left">
-                <div class="order-title-row">
-                    <span class="symbol-name">XAUUSDm</span>
-                    <span class="type-sell">sell 0.2</span>
-                </div>
-                <div class="price-row">
-                    <span>3338.771</span><span class="arrow">→</span><span>3327.810</span>
-                </div>
+        <!-- 2. 资金数据面板 -->
+        <div class="account-info">
+            <div class="info-row">
+                <span class="info-label">Balance:</span>
+                <span class="info-value">2 031.36</span>
             </div>
-            <div class="order-right">219.22</div>
+            <div class="info-row">
+                <span class="info-label">Equity:</span>
+                <span class="info-value">35 851.36</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Margin:</span>
+                <span class="info-value">50 419.03</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Free Margin:</span>
+                <span class="info-value negative">-14 567.67</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Margin Level (%):</span>
+                <span class="info-value">71.11</span>
+            </div>
         </div>
 
-        <div class="order-item">
-            <div class="order-left">
-                <div class="order-title-row">
-                    <span class="symbol-name">XAUUSDm</span>
-                    <span class="type-sell">sell 0.2</span>
-                </div>
-                <div class="price-row">
+        <!-- 3. Positions 横条 -->
+        <div class="positions-bar">
+            <span class="positions-title">Positions</span>
+            <span class="more-dots">...</span>
+        </div>
+
+        <!-- 4. 持仓列表 -->
+        <div class="order-list">
+            <div class="order-item">
+                <div class="order-left">
+                    <div class="order-title-row">
+                        <span class="symbol-name">XAUUSDm</span>
+                        <span class="type-sell">sell 0.2</span>
+                    </div>
