@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MT5 Trade UI</title>
+<title>MT5 UI</title>
 
 <style>
 
@@ -18,10 +18,10 @@
 body{
     background:#000;
     font-family:Arial,sans-serif;
+    color:#fff;
 
     display:flex;
     justify-content:center;
-    align-items:center;
 
     height:100vh;
     overflow:hidden;
@@ -30,11 +30,11 @@ body{
 /* 手机 */
 
 .phone{
-    width:390px;
-    height:844px;
+    width:100%;
+    max-width:390px;
+    height:100vh;
 
     background:#000;
-    color:#fff;
 
     position:relative;
     overflow:hidden;
@@ -43,10 +43,8 @@ body{
 /* 顶部 */
 
 .top{
-    padding:18px 16px 10px;
+    padding:20px 16px 0;
 }
-
-/* 标题 */
 
 .balance-title{
     text-align:center;
@@ -54,9 +52,9 @@ body{
     color:#1e90ff;
 
     font-size:28px;
-    font-weight:600;
+    font-weight:700;
 
-    margin-bottom:20px;
+    margin-bottom:22px;
 }
 
 /* 信息 */
@@ -65,9 +63,10 @@ body{
     display:flex;
     justify-content:space-between;
 
-    margin-bottom:10px;
+    margin-bottom:8px;
 
-    font-size:18px;
+    font-size:16px;
+
     color:#d0d0d0;
 }
 
@@ -75,12 +74,12 @@ body{
     color:#fff;
 }
 
-/* positions */
+/* Positions */
 
 .positions-title{
-    margin-top:20px;
+    margin-top:22px;
 
-    font-size:24px;
+    font-size:22px;
     font-weight:bold;
 }
 
@@ -89,14 +88,14 @@ body{
 .trade-list{
     position:absolute;
 
-    top:230px;
+    top:250px;
     bottom:88px;
     left:0;
     right:0;
 
     overflow-y:auto;
 
-    padding:0 14px;
+    padding:0 16px;
 }
 
 /* 单条 */
@@ -108,10 +107,8 @@ body{
 
     padding:18px 0;
 
-    border-bottom:1px solid rgba(255,255,255,0.04);
+    border-bottom:1px solid rgba(255,255,255,.05);
 }
-
-/* 左边 */
 
 .trade-left{
     display:flex;
@@ -122,9 +119,9 @@ body{
 
 .symbol{
     font-size:18px;
-    font-weight:bold;
+    font-weight:700;
 
-    margin-bottom:6px;
+    margin-bottom:5px;
 }
 
 .sell{
@@ -134,8 +131,8 @@ body{
 /* 价格 */
 
 .price{
-    color:#9a9a9a;
-    font-size:16px;
+    color:#8e8e93;
+    font-size:15px;
 }
 
 /* 盈利 */
@@ -143,8 +140,8 @@ body{
 .profit{
     color:#1e90ff;
 
-    font-size:24px;
-    font-weight:bold;
+    font-size:22px;
+    font-weight:700;
 }
 
 /* 底栏 */
@@ -157,16 +154,16 @@ body{
     width:100%;
     height:88px;
 
-    background:#0b0b0b;
+    background:#0a0a0a;
 
-    border-top:1px solid #151515;
+    border-top:1px solid #111;
 
     display:flex;
     justify-content:space-around;
     align-items:center;
 }
 
-/* nav */
+/* 导航 */
 
 .nav{
     display:flex;
@@ -174,24 +171,22 @@ body{
     align-items:center;
     justify-content:center;
 
-    color:#8d8d8d;
+    color:#8e8e93;
 
-    font-size:12px;
+    font-size:11px;
 }
-
-/* 激活 */
 
 .nav.active{
     color:#1e90ff;
 }
 
-/* icon */
+/* 图标 */
 
 .icon{
-    width:24px;
-    height:24px;
+    width:22px;
+    height:22px;
 
-    margin-bottom:5px;
+    margin-bottom:4px;
 
     display:flex;
     align-items:center;
@@ -204,18 +199,14 @@ body{
     width:100%;
     height:100%;
 
-    overflow:visible;
-
     stroke:currentColor;
     fill:none;
 
-    stroke-width:1.8;
+    stroke-width:2;
 
     stroke-linecap:round;
     stroke-linejoin:round;
 }
-
-/* 强制所有 svg 子元素透明 */
 
 .icon svg *{
     fill:none;
@@ -231,17 +222,17 @@ body{
     position:absolute;
 
     top:-2px;
-    right:-8px;
+    right:-7px;
 
-    width:18px;
-    height:18px;
+    width:16px;
+    height:16px;
 
     background:#ff3b30;
 
     border-radius:50%;
 
     color:#fff;
-    font-size:11px;
+    font-size:10px;
 
     display:flex;
     align-items:center;
@@ -294,7 +285,7 @@ body{
 
     </div>
 
-    <!-- 列表 -->
+    <!-- 订单列表 -->
 
     <div class="trade-list" id="tradeList"></div>
 
@@ -310,11 +301,9 @@ body{
 
                 <svg viewBox="0 0 24 24">
 
-                    <path d="M8 5L3 10L8 15"/>
-                    <path d="M16 9L21 14L16 19"/>
-
-                    <path d="M3 10H13"/>
-                    <path d="M11 14H21"/>
+                    <path d="M7 7L3 11L7 15"/>
+                    <path d="M17 7L21 11L17 15"/>
+                    <path d="M3 11H21"/>
 
                 </svg>
 
@@ -332,23 +321,14 @@ body{
 
                 <svg viewBox="0 0 24 24">
 
-                    <line x1="7" y1="4" x2="7" y2="20"/>
+                    <line x1="6" y1="5" x2="6" y2="19"/>
+                    <rect x="4" y="8" width="4" height="5"/>
 
-                    <rect
-                    x="5.5"
-                    y="7"
-                    width="3"
-                    height="6"
-                    />
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <rect x="10" y="6" width="4" height="8"/>
 
-                    <line x1="17" y1="4" x2="17" y2="20"/>
-
-                    <rect
-                    x="15.5"
-                    y="11"
-                    width="3"
-                    height="6"
-                    />
+                    <line x1="18" y1="5" x2="18" y2="19"/>
+                    <rect x="16" y="9" width="4" height="6"/>
 
                 </svg>
 
@@ -392,13 +372,9 @@ body{
 
                 <svg viewBox="0 0 24 24">
 
-                    <path d="M5 7V3"/>
-                    <path d="M5 3H9"/>
-                    <path d="M5 3L9 7"/>
-
-                    <circle cx="13" cy="13" r="7"/>
-
-                    <path d="M13 9V13L16 16"/>
+                    <path d="M4 12A8 8 0 1 0 8 5"/>
+                    <path d="M4 4V8H8"/>
+                    <path d="M12 8V12L15 15"/>
 
                 </svg>
 
@@ -448,7 +424,7 @@ body{
 
 const tradeList = document.getElementById("tradeList");
 
-for(let i=0;i<12;i++){
+for(let i = 0; i < 15; i++){
 
     tradeList.innerHTML += `
 
