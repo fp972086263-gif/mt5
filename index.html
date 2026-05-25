@@ -1,65 +1,399 @@
-<div class="bottom">
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <div class="nav">
-        <div class="icon">
-            <svg viewBox="0 0 24 24">
-                <path d="M7 7L3 11L7 15"/>
-                <path d="M17 7L21 11L17 15"/>
-                <path d="M3 11H21"/>
-            </svg>
+<title>MT5 UI</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    overflow:hidden;
+}
+
+/* 手机主体 */
+
+.phone{
+    width:390px;
+    height:844px;
+    background:#000;
+    position:relative;
+    overflow:hidden;
+}
+
+/* 顶部 */
+
+.top{
+    padding:20px 18px 10px;
+}
+
+/* 标题金额 */
+
+.balance-title{
+    text-align:center;
+    color:#1e90ff;
+    font-size:28px;
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+/* 信息 */
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+
+    color:#d8d8d8;
+    font-size:18px;
+}
+
+.info-row span:last-child{
+    color:white;
+}
+
+/* positions */
+
+.positions-title{
+    margin-top:20px;
+    margin-bottom:10px;
+
+    color:white;
+    font-size:24px;
+    font-weight:bold;
+}
+
+/* 列表 */
+
+.trade-list{
+    position:absolute;
+    top:230px;
+    bottom:88px;
+    left:0;
+    right:0;
+
+    overflow-y:auto;
+    padding:0 15px;
+}
+
+/* 单条 */
+
+.trade-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:18px 0;
+
+    border-bottom:1px solid rgba(255,255,255,0.04);
+}
+
+/* 左侧 */
+
+.trade-left{
+    display:flex;
+    flex-direction:column;
+}
+
+/* 品种 */
+
+.symbol{
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+.sell{
+    color:#ff3b30;
+}
+
+/* 价格 */
+
+.price{
+    color:#9f9f9f;
+    font-size:16px;
+}
+
+/* 盈利 */
+
+.profit{
+    color:#1e90ff;
+    font-size:24px;
+    font-weight:bold;
+}
+
+/* 底栏 */
+
+.bottom{
+    position:absolute;
+    bottom:0;
+    left:0;
+
+    width:100%;
+    height:88px;
+
+    background:#0b0b0b;
+    border-top:1px solid #151515;
+
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+}
+
+/* 每个按钮 */
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    color:#8d8d8d;
+    font-size:12px;
+}
+
+/* 激活 */
+
+.nav.active{
+    color:#1e90ff;
+}
+
+/* 图标 */
+
+.icon{
+    width:28px;
+    height:28px;
+    margin-bottom:5px;
+}
+
+/* svg */
+
+.icon svg{
+    width:100%;
+    height:100%;
+
+    stroke:currentColor;
+    fill:none;
+
+    stroke-width:1.7;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+/* 设置红点 */
+
+.settings-wrap{
+    position:relative;
+}
+
+.badge{
+    position:absolute;
+    right:-6px;
+    top:-3px;
+
+    width:18px;
+    height:18px;
+
+    background:#ff3b30;
+    border-radius:50%;
+
+    color:white;
+    font-size:11px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+
+    <!-- 顶部 -->
+    <div class="top">
+
+        <div class="balance-title">
+            33 820.00 USD
         </div>
-        Quotes
+
+        <div class="info-row">
+            <span>Balance:</span>
+            <span>2 031.36</span>
+        </div>
+
+        <div class="info-row">
+            <span>Equity:</span>
+            <span>35 851.36</span>
+        </div>
+
+        <div class="info-row">
+            <span>Margin:</span>
+            <span>50 419.03</span>
+        </div>
+
+        <div class="info-row">
+            <span>Free Margin:</span>
+            <span>-14 567.67</span>
+        </div>
+
+        <div class="info-row">
+            <span>Margin Level (%):</span>
+            <span>71.11</span>
+        </div>
+
+        <div class="positions-title">
+            Positions
+        </div>
+
     </div>
 
-    <div class="nav">
-        <div class="icon">
-            <svg viewBox="0 0 24 24">
-                <rect x="4" y="10" width="3" height="8"/>
-                <rect x="10" y="6" width="3" height="12"/>
-                <rect x="16" y="3" width="3" height="15"/>
-            </svg>
-        </div>
-        Chart
-    </div>
+    <!-- 订单列表 -->
+    <div class="trade-list" id="tradeList"></div>
 
-    <div class="nav active">
-        <div class="icon">
-            <svg viewBox="0 0 24 24">
-                <rect x="4" y="4" width="16" height="16" rx="2"/>
-                <path d="M7 14L10 11L13 13L17 8"/>
-            </svg>
-        </div>
-        Trade
-    </div>
+    <!-- 底栏 -->
+    <div class="bottom">
 
-    <div class="nav">
-        <div class="icon">
-            <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="8"/>
-                <path d="M12 8V12L15 15"/>
-            </svg>
-        </div>
-        History
-    </div>
-
-    <div class="nav settings-wrap">
-        <div class="badge">6</div>
-
-        <div class="icon">
-            <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="3"/>
-                <path d="M12 2V5"/>
-                <path d="M12 19V22"/>
-                <path d="M2 12H5"/>
-                <path d="M19 12H22"/>
-                <path d="M4.9 4.9L7 7"/>
-                <path d="M17 17L19.1 19.1"/>
-                <path d="M17 7L19.1 4.9"/>
-                <path d="M4.9 19.1L7 17"/>
-            </svg>
+        <!-- Quotes -->
+        <div class="nav">
+            <div class="icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M8 5L3 10L8 15"/>
+                    <path d="M16 9L21 14L16 19"/>
+                    <path d="M3 10H13"/>
+                    <path d="M11 14H21"/>
+                </svg>
+            </div>
+            <span>Quotes</span>
         </div>
 
-        Settings
+        <!-- Chart -->
+        <div class="nav">
+            <div class="icon">
+                <svg viewBox="0 0 24 24">
+
+                    <line x1="7" y1="4" x2="7" y2="20"/>
+                    <rect x="5" y="7" width="4" height="6"/>
+
+                    <line x1="17" y1="4" x2="17" y2="20"/>
+                    <rect x="15" y="11" width="4" height="6"/>
+
+                </svg>
+            </div>
+            <span>Chart</span>
+        </div>
+
+        <!-- Trade -->
+        <div class="nav active">
+            <div class="icon">
+                <svg viewBox="0 0 24 24">
+
+                    <rect x="4" y="4" width="16" height="16" rx="2"/>
+                    <path d="M7 14L10 10L13 13L17 8"/>
+
+                </svg>
+            </div>
+            <span>Trade</span>
+        </div>
+
+        <!-- History -->
+        <div class="nav">
+            <div class="icon">
+                <svg viewBox="0 0 24 24">
+
+                    <path d="M5 7V3"/>
+                    <path d="M5 3H9"/>
+                    <path d="M5 3L9 7"/>
+
+                    <circle cx="13" cy="13" r="7"/>
+
+                    <path d="M13 9V13L16 16"/>
+
+                </svg>
+            </div>
+            <span>History</span>
+        </div>
+
+        <!-- Settings -->
+        <div class="nav settings-wrap">
+
+            <div class="badge">6</div>
+
+            <div class="icon">
+                <svg viewBox="0 0 24 24">
+
+                    <circle cx="12" cy="12" r="3"/>
+
+                    <path d="M12 2V5"/>
+                    <path d="M12 19V22"/>
+
+                    <path d="M2 12H5"/>
+                    <path d="M19 12H22"/>
+
+                    <path d="M5 5L7 7"/>
+                    <path d="M17 17L19 19"/>
+
+                    <path d="M17 7L19 5"/>
+                    <path d="M5 19L7 17"/>
+
+                </svg>
+            </div>
+
+            <span>Settings</span>
+
+        </div>
+
     </div>
 
 </div>
+
+<script>
+
+const tradeList = document.getElementById("tradeList");
+
+for(let i=0;i<12;i++){
+
+    tradeList.innerHTML += `
+
+        <div class="trade-item">
+
+            <div class="trade-left">
+
+                <div class="symbol">
+                    XAUUSDm <span class="sell">sell 0.2</span>
+                </div>
+
+                <div class="price">
+                    3338.771 → 3327.810
+                </div>
+
+            </div>
+
+            <div class="profit">
+                219.22
+            </div>
+
+        </div>
+
+    `;
+}
+
+</script>
+
+</body>
+</html>
