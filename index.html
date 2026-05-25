@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<title>MT5 Trade UI</title>
+<title>MT5 UI</title>
 
 <style>
 
@@ -48,7 +48,7 @@ body{
     padding:18px 16px 0;
 }
 
-/* 标题 */
+/* 金额 */
 
 .balance-title{
     text-align:center;
@@ -78,7 +78,7 @@ body{
     color:#fff;
 }
 
-/* Positions */
+/* 标题 */
 
 .positions-title{
     margin-top:20px;
@@ -105,8 +105,7 @@ body{
 }
 
 .trade-list::-webkit-scrollbar{
-    width:0;
-    height:0;
+    display:none;
 }
 
 /* 单条 */
@@ -128,8 +127,6 @@ body{
     flex-direction:column;
 }
 
-/* 品种 */
-
 .symbol{
     font-size:18px;
     font-weight:700;
@@ -140,8 +137,6 @@ body{
 .sell{
     color:#ff3b30;
 }
-
-/* 价格 */
 
 .price{
     color:#8e8e93;
@@ -195,7 +190,7 @@ body{
     color:#0a84ff;
 }
 
-/* icon */
+/* 图标 */
 
 .icon{
     width:26px;
@@ -208,23 +203,54 @@ body{
     justify-content:center;
 }
 
-/* SVG */
+/* PNG 图标 */
 
-.icon svg{
+.icon img{
     width:100%;
     height:100%;
 
-    stroke:currentColor;
-    fill:none;
+    object-fit:contain;
 
-    stroke-width:2.3;
+    transition:.2s;
+}
+.mirror{
+    transform:scale(-1);
+}
+.quotes-icon{
+    transform:scale(.82);
+}
+/* Trade SVG */
 
-    stroke-linecap:round;
-    stroke-linejoin:round;
+.trade-svg svg{
+    width:100%;
+    height:100%;
 }
 
-.icon svg *{
-    fill:none;
+.trade-svg{
+    color:#0a84ff;
+}
+
+/* 默认灰色 */
+
+.nav img{
+    filter:
+    brightness(0)
+    saturate(100%)
+    invert(50%);
+}
+
+/* 激活蓝色 */
+
+.nav.active img{
+    filter:
+    brightness(0)
+    saturate(100%)
+    invert(43%)
+    sepia(99%)
+    saturate(1957%)
+    hue-rotate(196deg)
+    brightness(101%)
+    contrast(101%);
 }
 
 /* 红点 */
@@ -300,7 +326,7 @@ body{
 
     </div>
 
-    <!-- 列表 -->
+    <!-- 订单列表 -->
 
     <div class="trade-list" id="tradeList"></div>
 
@@ -308,25 +334,20 @@ body{
 
     <div class="bottom">
 
-        <!-- Quotes -->
-
         <div class="nav">
 
-            <div class="icon">
+            <div class="icon" style="width: 22px; height: 22px; display: flex; align-items: center; justify-content: center;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="width: 19.5px; height: 19.5px; display: block;">
+    
+    <!-- 左侧：向下短箭头（主干线再次拉长至 12px，谷底沉到 21） -->
+    <path d="M7.5 9v12M7.5 21l-3-3M7.5 21l3-3" />
 
-<svg viewBox="0 0 24 24">
-
-    <!-- 上箭头 -->
-
-    <path d="M8 10L12 6L16 10"/>
-    <path d="M12 6V14"/>
-
-    <!-- 下箭头 -->
-
-    <path d="M8 14L12 18L16 14"/>
-    <path d="M12 10V18"/>
+    <!-- 右侧：向上短箭头（主干线再次拉长至 12px，波峰冲到 3） -->
+    <path d="M16.5 15V3M16.5 3l-3 3M16.5 3l3 3" />
 
 </svg>
+
+
 
             </div>
 
@@ -339,90 +360,61 @@ body{
         <div class="nav">
 
             <div class="icon">
-
-                <svg viewBox="0 0 24 24">
-
-                    <line x1="6" y1="4" x2="6" y2="20"/>
-
-                    <rect
-                    x="4"
-                    y="8"
-                    width="4"
-                    height="5"
-                    fill="none"
-                    />
-
-                    <line x1="12" y1="4" x2="12" y2="20"/>
-
-                    <rect
-                    x="10"
-                    y="6"
-                    width="4"
-                    height="8"
-                    fill="none"
-                    />
-
-                    <line x1="18" y1="4" x2="18" y2="20"/>
-
-                    <rect
-                    x="16"
-                    y="9"
-                    width="4"
-                    height="6"
-                    fill="none"
-                    />
-
-                </svg>
-
+                <img class="mirror" src="chart.png">
             </div>
 
             <span>Chart</span>
 
         </div>
 
-        <!-- Trade -->
+   <!-- Trade -->
 
-        <div class="nav active">
+<div class="nav active">
 
-            <div class="icon">
+    <div class="icon trade-svg">
 
-                <svg viewBox="0 0 24 24">
+        <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
 
-                    <rect
-                    x="4"
-                    y="4"
-                    width="16"
-                    height="16"
-                    rx="2"
-                    fill="none"
-                    />
+            <!-- 外框 -->
 
-                    <path d="M7 14L10 10L13 13L17 8"/>
+            <rect
+            x="2.5"
+            y="2.5"
+            width="19"
+            height="19"
+            rx="3.5"
+            fill="none"
+            />
 
-                </svg>
+            <!-- MT5走势 -->
 
-            </div>
+          <path d="M5.5 17L9 12L13.5 15L18.5 7.5"/>
 
-            <span>Trade</span>
 
-        </div>
+
+
+
+
+        </svg>
+
+    </div>
+
+    <span>Trade</span>
+
+</div>
 
         <!-- History -->
 
         <div class="nav">
 
             <div class="icon">
-
-                <svg viewBox="0 0 24 24">
-
-                    <path d="M4 12a8 8 0 1 0 3-6"/>
-
-                    <path d="M4 4v5h5"/>
-
-                    <path d="M12 8v5l3 2"/>
-
-                </svg>
-
+                <img src="history.png">
             </div>
 
             <span>History</span>
@@ -436,55 +428,7 @@ body{
             <div class="badge">6</div>
 
             <div class="icon">
-
-               <svg viewBox="0 0 24 24">
-
-    <!-- 外圈 -->
-
-    <circle cx="12" cy="12" r="7"/>
-
-    <!-- 齿 -->
-
-    <path d="M12 2V5"/>
-    <path d="M12 19V22"/>
-
-    <path d="M2 12H5"/>
-    <path d="M19 12H22"/>
-
-    <path d="M5 5L7 7"/>
-    <path d="M17 17L19 19"/>
-
-    <path d="M17 7L19 5"/>
-    <path d="M5 19L7 17"/>
-
-    <!-- MT5 中间柱状图 -->
-
-    <rect
-    x="9"
-    y="12"
-    width="1.5"
-    height="4"
-    fill="none"
-    />
-
-    <rect
-    x="11.25"
-    y="9"
-    width="1.5"
-    height="7"
-    fill="none"
-    />
-
-    <rect
-    x="13.5"
-    y="7"
-    width="1.5"
-    height="9"
-    fill="none"
-    />
-
-</svg>
-
+                <img src="settings.png">
             </div>
 
             <span>Settings</span>
