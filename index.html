@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MT5 UI</title>
+<title>MT5 Trade UI</title>
 
 <style>
 
@@ -12,24 +12,30 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,sans-serif;
+    -webkit-tap-highlight-color:transparent;
 }
 
 body{
     background:#000;
+    font-family:Arial,sans-serif;
+
     display:flex;
     justify-content:center;
     align-items:center;
+
     height:100vh;
     overflow:hidden;
 }
 
-/* 手机主体 */
+/* 手机 */
 
 .phone{
     width:390px;
     height:844px;
+
     background:#000;
+    color:#fff;
+
     position:relative;
     overflow:hidden;
 }
@@ -37,16 +43,19 @@ body{
 /* 顶部 */
 
 .top{
-    padding:20px 18px 10px;
+    padding:18px 16px 10px;
 }
 
-/* 标题金额 */
+/* 标题 */
 
 .balance-title{
     text-align:center;
+
     color:#1e90ff;
+
     font-size:28px;
     font-weight:600;
+
     margin-bottom:20px;
 }
 
@@ -55,23 +64,22 @@ body{
 .info-row{
     display:flex;
     justify-content:space-between;
+
     margin-bottom:10px;
 
-    color:#d8d8d8;
     font-size:18px;
+    color:#d0d0d0;
 }
 
-.info-row span:last-child{
-    color:white;
+.info-row .value{
+    color:#fff;
 }
 
 /* positions */
 
 .positions-title{
     margin-top:20px;
-    margin-bottom:10px;
 
-    color:white;
     font-size:24px;
     font-weight:bold;
 }
@@ -80,13 +88,15 @@ body{
 
 .trade-list{
     position:absolute;
+
     top:230px;
     bottom:88px;
     left:0;
     right:0;
 
     overflow-y:auto;
-    padding:0 15px;
+
+    padding:0 14px;
 }
 
 /* 单条 */
@@ -101,7 +111,7 @@ body{
     border-bottom:1px solid rgba(255,255,255,0.04);
 }
 
-/* 左侧 */
+/* 左边 */
 
 .trade-left{
     display:flex;
@@ -111,10 +121,10 @@ body{
 /* 品种 */
 
 .symbol{
-    color:white;
     font-size:18px;
     font-weight:bold;
-    margin-bottom:5px;
+
+    margin-bottom:6px;
 }
 
 .sell{
@@ -124,7 +134,7 @@ body{
 /* 价格 */
 
 .price{
-    color:#9f9f9f;
+    color:#9a9a9a;
     font-size:16px;
 }
 
@@ -132,6 +142,7 @@ body{
 
 .profit{
     color:#1e90ff;
+
     font-size:24px;
     font-weight:bold;
 }
@@ -147,6 +158,7 @@ body{
     height:88px;
 
     background:#0b0b0b;
+
     border-top:1px solid #151515;
 
     display:flex;
@@ -154,14 +166,16 @@ body{
     align-items:center;
 }
 
-/* 每个按钮 */
+/* nav */
 
 .nav{
     display:flex;
     flex-direction:column;
     align-items:center;
+    justify-content:center;
 
     color:#8d8d8d;
+
     font-size:12px;
 }
 
@@ -171,29 +185,43 @@ body{
     color:#1e90ff;
 }
 
-/* 图标 */
+/* icon */
 
 .icon{
-    width:28px;
-    height:28px;
+    width:24px;
+    height:24px;
+
     margin-bottom:5px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
-/* svg */
+/* SVG */
 
 .icon svg{
     width:100%;
     height:100%;
 
+    overflow:visible;
+
     stroke:currentColor;
     fill:none;
 
-    stroke-width:1.7;
+    stroke-width:1.8;
+
     stroke-linecap:round;
     stroke-linejoin:round;
 }
 
-/* 设置红点 */
+/* 强制所有 svg 子元素透明 */
+
+.icon svg *{
+    fill:none;
+}
+
+/* 红点 */
 
 .settings-wrap{
     position:relative;
@@ -201,16 +229,18 @@ body{
 
 .badge{
     position:absolute;
-    right:-6px;
-    top:-3px;
+
+    top:-2px;
+    right:-8px;
 
     width:18px;
     height:18px;
 
     background:#ff3b30;
+
     border-radius:50%;
 
-    color:white;
+    color:#fff;
     font-size:11px;
 
     display:flex;
@@ -226,6 +256,7 @@ body{
 <div class="phone">
 
     <!-- 顶部 -->
+
     <div class="top">
 
         <div class="balance-title">
@@ -234,27 +265,27 @@ body{
 
         <div class="info-row">
             <span>Balance:</span>
-            <span>2 031.36</span>
+            <span class="value">2 031.36</span>
         </div>
 
         <div class="info-row">
             <span>Equity:</span>
-            <span>35 851.36</span>
+            <span class="value">35 851.36</span>
         </div>
 
         <div class="info-row">
             <span>Margin:</span>
-            <span>50 419.03</span>
+            <span class="value">50 419.03</span>
         </div>
 
         <div class="info-row">
             <span>Free Margin:</span>
-            <span>-14 567.67</span>
+            <span class="value">-14 567.67</span>
         </div>
 
         <div class="info-row">
             <span>Margin Level (%):</span>
-            <span>71.11</span>
+            <span class="value">71.11</span>
         </div>
 
         <div class="positions-title">
@@ -263,57 +294,102 @@ body{
 
     </div>
 
-    <!-- 订单列表 -->
+    <!-- 列表 -->
+
     <div class="trade-list" id="tradeList"></div>
 
     <!-- 底栏 -->
+
     <div class="bottom">
 
         <!-- Quotes -->
+
         <div class="nav">
+
             <div class="icon">
+
                 <svg viewBox="0 0 24 24">
+
                     <path d="M8 5L3 10L8 15"/>
                     <path d="M16 9L21 14L16 19"/>
+
                     <path d="M3 10H13"/>
                     <path d="M11 14H21"/>
+
                 </svg>
+
             </div>
+
             <span>Quotes</span>
+
         </div>
 
         <!-- Chart -->
+
         <div class="nav">
+
             <div class="icon">
+
                 <svg viewBox="0 0 24 24">
 
                     <line x1="7" y1="4" x2="7" y2="20"/>
-                    <rect x="5" y="7" width="4" height="6"/>
+
+                    <rect
+                    x="5.5"
+                    y="7"
+                    width="3"
+                    height="6"
+                    />
 
                     <line x1="17" y1="4" x2="17" y2="20"/>
-                    <rect x="15" y="11" width="4" height="6"/>
+
+                    <rect
+                    x="15.5"
+                    y="11"
+                    width="3"
+                    height="6"
+                    />
 
                 </svg>
+
             </div>
+
             <span>Chart</span>
+
         </div>
 
         <!-- Trade -->
+
         <div class="nav active">
+
             <div class="icon">
+
                 <svg viewBox="0 0 24 24">
 
-                    <rect x="4" y="4" width="16" height="16" rx="2"/>
+                    <rect
+                    x="4"
+                    y="4"
+                    width="16"
+                    height="16"
+                    rx="2"
+                    />
+
                     <path d="M7 14L10 10L13 13L17 8"/>
 
                 </svg>
+
             </div>
+
             <span>Trade</span>
+
         </div>
 
         <!-- History -->
+
         <div class="nav">
+
             <div class="icon">
+
                 <svg viewBox="0 0 24 24">
 
                     <path d="M5 7V3"/>
@@ -325,16 +401,21 @@ body{
                     <path d="M13 9V13L16 16"/>
 
                 </svg>
+
             </div>
+
             <span>History</span>
+
         </div>
 
         <!-- Settings -->
+
         <div class="nav settings-wrap">
 
             <div class="badge">6</div>
 
             <div class="icon">
+
                 <svg viewBox="0 0 24 24">
 
                     <circle cx="12" cy="12" r="3"/>
@@ -352,6 +433,7 @@ body{
                     <path d="M5 19L7 17"/>
 
                 </svg>
+
             </div>
 
             <span>Settings</span>
