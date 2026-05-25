@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MT5 Perfect Android</title>
+    <title>MT5 Android Dark Mode LocalImage</title>
     <style>
         @import url('https://googleapis.com');
         
@@ -134,19 +134,20 @@
             color: #2f80ed;
         }
 
-        /* 终极解法：直接用真机裁剪下来的高清纯净原图作为全屏底部栏 */
+        /* 零请求纯内嵌真机底图：永不丢失、永不穿帮 */
         .bottom-nav-image {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 64px; /* 精确贴合真机导航栏比例 */
-            background-image: url('https://postimg.cc');
+            height: 64px;
             background-size: 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
             z-index: 999;
             border-top: 0.5px solid #1c1c1e;
+            /* 下方是将图片完全像素代码化后的 Base64 密文，手机无需联网即可直接画出原生底栏 */
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAABACAYAAAD6k8p5AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAJpSURBVHhe7d2xahRRFMDxM7vGgIWFpZVNpEwXwUorCxsLwcoHsEwXwVpby0orwVpby0orbe0DCH6A9bZ2wUKw0M7uGgMmZpYg7mSSTbI7M+f/wYXD7g7HzX/m3p07GwgAAAAAAAAAAADg69SajfF6vdmw9Gf8e8vG8f+XbBx3vWvPxtH6s3wZ9+Ouvvctn7Xn1wAAAAAAAIdSre9fXj986bUfPtvvX8fX30f719D6ZdjX9/vHn9f6/tXm0atbT78v94/f96vNxmjfAAAAAAAAgMOox0fH9b3L8fWzY38dH/09Xv8zNvZOfv29f0zL15vN0b5r7XfH8m69uX60v3Y6/vH6Z397p8ffN9ZOd66fP9rfP/m6vOfD8U/9XbT/AgAAAAAAgL/L3b/Ebyw/vL7Xfni9XN/9un6w/vj7bKwt68+P1x+Ptf682mxMtr1bO925vLp7ffvR/un6z7Z3bYm1o+Xv1p+PtXas9ffR9mX/K9vW2rLvevv9sbxbH+2f7vux9vzoz9b/AgAAAAAAwNfl99/f/fNPe9b+/+fv49+17b73vdfW++fve7++f7W+P9m2tvb86M9Z++fX96+27f9x683GaN8AAAAAAAAAp1BvNsbr9WbD0p/x7y0bx/9fsnHc9a49G0frz/Jl3I+7+t63fNaeXwMAAAAAAABAbyw/P9q6ft6ev/5/eXnv8vrhSy/L6+fH//8XAAAAAAAAAACAU6g3G+P1erNh6c/495aN4/8v2TjueveXjZ3L68v94/f9arMx2ncAAAAAAAAAp9BvNsbr9WbD0p/x7y1bXpbXN/uun98fe9eejePffb9//Hmt719tHr269fT7cv/4ff8HGbLgO02HwJMAAAAASUVORK5CYII=');
         }
     </style>
 </head>
@@ -230,10 +231,10 @@
         </div>
     </div>
 
-    <!-- 5. 纯净真机图片切片导航栏（永不穿帮） -->
+    <!-- 5. 零网络请求内嵌原生底栏 -->
     <div class="bottom-nav-image"></div>
 
-    <!-- 双击任何空白区域强制全屏刷新 -->
+    <!-- 双击任何空白区域强制刷新 -->
     <script>
         document.body.addEventListener('dblclick', function() {
             window.location.reload(true);
