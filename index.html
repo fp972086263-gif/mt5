@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MT5 Android Dark Mode LocalImage</title>
+    <title>MT5 Pure Dark Mode</title>
     <style>
         @import url('https://googleapis.com');
         
@@ -134,20 +134,154 @@
             color: #2f80ed;
         }
 
-        /* 零请求纯内嵌真机底图：永不丢失、永不穿帮 */
-        .bottom-nav-image {
+        /* 纯CSS纯手工手绘安卓原生底部导航栏 (无任何外部资源请求，永远不会丢失) */
+        .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 64px;
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: 999;
+            height: 60px;
+            background-color: #0c0c0d;
             border-top: 0.5px solid #1c1c1e;
-            /* 下方是将图片完全像素代码化后的 Base64 密文，手机无需联网即可直接画出原生底栏 */
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAABACAYAAAD6k8p5AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAJpSURBVHhe7d2xahRRFMDxM7vGgIWFpZVNpEwXwUorCxsLwcoHsEwXwVpby0orwVpby0orbe0DCH6A9bZ2wUKw0M7uGgMmZpYg7mSSTbI7M+f/wYXD7g7HzX/m3p07GwgAAAAAAAAAAADg69SajfF6vdmw9Gf8e8vG8f+XbBx3vWvPxtH6s3wZ9+Ouvvctn7Xn1wAAAAAAAIdSre9fXj986bUfPtvvX8fX30f719D6ZdjX9/vHn9f6/tXm0atbT78v94/f96vNxmjfAAAAAAAAgMOox0fH9b3L8fWzY38dH/09Xv8zNvZOfv29f0zL15vN0b5r7XfH8m69uX60v3Y6/vH6Z397p8ffN9ZOd66fP9rfP/m6vOfD8U/9XbT/AgAAAAAAgL/L3b/Ebyw/vL7Xfni9XN/9un6w/vj7bKwt68+P1x+Ptf682mxMtr1bO925vLp7ffvR/un6z7Z3bYm1o+Xv1p+PtXas9ffR9mX/K9vW2rLvevv9sbxbH+2f7vux9vzoz9b/AgAAAAAAwNfl99/f/fNPe9b+/+fv49+17b73vdfW++fve7++f7W+P9m2tvb86M9Z++fX96+27f9x683GaN8AAAAAAAAAp1BvNsbr9WbD0p/x7y0bx/9fsnHc9a49G0frz/Jl3I+7+t63fNaeXwMAAAAAAABAbyw/P9q6ft6ev/5/eXnv8vrhSy/L6+fH//8XAAAAAAAAAACAU6g3G+P1erNh6c/495aN4/8v2TjueveXjZ3L68v94/f9arMx2ncAAAAAAAAAp9BvNsbr9WbD0p/x7y1bXpbXN/uun98fe9eejePffb9//Hmt719tHr269fT7cv/4ff8HGbLgO02HwJMAAAAASUVORK5CYII=');
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-sizing: border-box;
+            z-index: 999;
+            padding-bottom: 4px;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #727274;
+            font-size: 10px;
+            width: 20%;
+        }
+        .nav-item.active {
+            color: #2f80ed;
+        }
+        
+        /* 纯手工像素绘图区 */
+        .icon-box {
+            width: 22px;
+            height: 22px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        /* Quotes手绘细线条 */
+        .icon-quotes {
+            width: 14px;
+            height: 14px;
+            border-left: 1.5px solid #727274;
+            border-right: 1.5px solid #727274;
+            position: relative;
+        }
+        .icon-quotes::before {
+            content: '';
+            position: absolute;
+            top: 2px; left: -4px;
+            width: 0; height: 0;
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+            border-bottom: 4px solid #727274;
+        }
+        .icon-quotes::after {
+            content: '';
+            position: absolute;
+            bottom: 2px; right: -4px;
+            width: 0; height: 0;
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+            border-top: 4px solid #727274;
+        }
+
+        /* Chart手绘细线条K线 */
+        .icon-chart {
+            width: 16px;
+            height: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            position: relative;
+            border-bottom: 1.5px solid #727274;
+        }
+        .icon-chart span {
+            width: 3px;
+            background-color: #727274;
+        }
+        .icon-chart span:nth-child(1) { height: 6px; }
+        .icon-chart span:nth-child(2) { height: 11px; }
+        .icon-chart span:nth-child(3) { height: 8px; }
+        .icon-chart::before {
+            content: '';
+            position: absolute;
+            top: 2px; left: 0; width: 14px; height: 6px;
+            border-top: 1.5px solid #727274;
+            transform: rotate(15deg);
+        }
+
+        /* Trade蓝色高亮专属面板 */
+        .icon-trade {
+            width: 16px;
+            height: 13px;
+            border: 1.5px solid #2f80ed;
+            border-radius: 1px;
+            position: relative;
+        }
+        .icon-trade::before {
+            content: '';
+            position: absolute;
+            top: 4px; left: 2px;
+            width: 10px; height: 3px;
+            border-top: 1.5px solid #2f80ed;
+            border-left: 1.5px solid #2f80ed;
+            transform: rotate(10deg);
+        }
+
+        /* History环形钟表 */
+        .icon-history {
+            width: 14px;
+            height: 14px;
+            border: 1.5px solid #727274;
+            border-radius: 50%;
+            position: relative;
+        }
+        .icon-history::before {
+            content: '';
+            position: absolute;
+            top: 3px; left: 6px;
+            width: 1px; height: 4px;
+            background-color: #727274;
+        }
+        .icon-history::after {
+            content: '';
+            position: absolute;
+            top: 7px; left: 6px;
+            width: 3px; height: 1px;
+            background-color: #727274;
+        }
+
+        /* Messages双重同心圆 */
+        .icon-messages {
+            width: 14px;
+            height: 14px;
+            border: 1.5px solid #727274;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-messages::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background-color: #727274;
+            border-radius: 50%;
         }
     </style>
 </head>
@@ -211,34 +345,3 @@
                     <span class="type-sell">sell 0.2</span>
                 </div>
                 <div class="price-row">
-                    <span>3338.771</span><span class="arrow">→</span><span>3327.810</span>
-                </div>
-            </div>
-            <div class="order-right">219.22</div>
-        </div>
-
-        <div class="order-item">
-            <div class="order-left">
-                <div class="order-title-row">
-                    <span class="symbol-name">XAUUSDm</span>
-                    <span class="type-sell">sell 0.2</span>
-                </div>
-                <div class="price-row">
-                    <span>3338.802</span><span class="arrow">→</span><span>3327.810</span>
-                </div>
-            </div>
-            <div class="order-right">219.84</div>
-        </div>
-    </div>
-
-    <!-- 5. 零网络请求内嵌原生底栏 -->
-    <div class="bottom-nav-image"></div>
-
-    <!-- 双击任何空白区域强制刷新 -->
-    <script>
-        document.body.addEventListener('dblclick', function() {
-            window.location.reload(true);
-        });
-    </script>
-</body>
-</html>
