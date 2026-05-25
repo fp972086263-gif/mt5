@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MT5 Android Dark Mode Fixed</title>
-    <!-- 引入谷歌精细字体图标库，确保在所有安卓 WebView 下不失真渲染 -->
-    <link href="https://googleapis.com" rel="stylesheet" />
+    <title>MT5 Perfect Android</title>
     <style>
         @import url('https://googleapis.com');
         
@@ -95,7 +93,7 @@
             flex: 1;
             overflow-y: auto;
             background-color: #000000;
-            padding-bottom: 70px; 
+            padding-bottom: 75px; 
         }
         .order-item {
             display: flex;
@@ -136,37 +134,19 @@
             color: #2f80ed;
         }
 
-        /* 底部导航栏：全新重构版，彻底锁定图标形状 */
-        .bottom-nav {
+        /* 终极解法：直接用真机裁剪下来的高清纯净原图作为全屏底部栏 */
+        .bottom-nav-image {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 56px;
-            background-color: #0d0d0e;
-            border-top: 0.5px solid #1c1c1e;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            box-sizing: border-box;
+            height: 64px; /* 精确贴合真机导航栏比例 */
+            background-image: url('https://postimg.cc');
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
             z-index: 999;
-        }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #727274;
-            font-size: 10px;
-            width: 20%;
-        }
-        .nav-item.active {
-            color: #2f80ed; /* 激活的高亮蓝 */
-        }
-        /* 强制调用超细线条模式，防止过粗 */
-        .material-symbols-outlined {
-            font-size: 22px;
-            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
-            margin-bottom: 2px;
+            border-top: 0.5px solid #1c1c1e;
         }
     </style>
 </head>
@@ -250,36 +230,10 @@
         </div>
     </div>
 
-    <!-- 5. 底部高仿安卓原生导航栏 -->
-    <div class="bottom-nav">
-        <!-- Quotes -->
-        <div class="nav-item">
-            <span class="material-symbols-outlined">swap_vert</span>
-            <div>Quotes</div>
-        </div>
-        <!-- Chart -->
-        <div class="nav-item">
-            <span class="material-symbols-outlined">monitoring</span>
-            <div>Chart</div>
-        </div>
-        <!-- Trade (高亮激活) -->
-        <div class="nav-item active">
-            <span class="material-symbols-outlined">analytics</span>
-            <div>Trade</div>
-        </div>
-        <!-- History -->
-        <div class="nav-item">
-            <span class="material-symbols-outlined">history</span>
-            <div>History</div>
-        </div>
-        <!-- Messages -->
-        <div class="nav-item">
-            <span class="material-symbols-outlined">adjust</span>
-            <div>Messages</div>
-        </div>
-    </div>
+    <!-- 5. 纯净真机图片切片导航栏（永不穿帮） -->
+    <div class="bottom-nav-image"></div>
 
-    <!-- 双击屏幕任何空白区域强制获取最新内容 -->
+    <!-- 双击任何空白区域强制全屏刷新 -->
     <script>
         document.body.addEventListener('dblclick', function() {
             window.location.reload(true);
