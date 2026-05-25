@@ -379,6 +379,12 @@
             <div>Settings</div>
         </div>
     </div>
+<script>
+    // 以后只要在手机APP屏幕上任意地方“快速双击两次”，页面就会自动强制刷新获取最新数字
+    document.body.addEventListener('dblclick', function() {
+        window.location.reload(true);
+    });
+</script>
 
 </body>
 </html>
