@@ -3,148 +3,323 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MT5 100% Perfect Mode</title>
+    <title>MT5 100% Perfect Android</title>
     <style>
-        /* 引入与手机版系统最契合的专业数字字体 */
         @import url('https://googleapis.com');
         
         html, body {
             margin: 0;
             padding: 0;
-            background-color: #000000;
+            background-color: #1c1c1e; /* 电脑端周围显示高级灰，用于承托中间手机屏幕 */
+            font-family: 'Roboto', -apple-system, sans-serif;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            font-family: 'Roboto', -apple-system, sans-serif;
+            align-items: center;
             overflow: hidden;
         }
 
-        /* 核心沙盒：直接以真机原图作为基础背景，确保图标和排版100%一致 */
-        .app-sandbox {
-            position: relative;
+        /* 锁死标准安卓手机尺寸的容器 */
+        .phone-container {
             width: 100%;
-            max-width: 412px; /* 完美锁定手机端宽度 */
-            height: 100vh;
-            background-image: url('https://postimg.cc');
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
+            max-width: 412px;
+            height: 100%;
+            max-height: 860px;
+            background-color: #000000;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-sizing: border-box;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+
+        /* 顶部总盈利区域 */
+        .header-total {
+            position: relative;
+            text-align: center;
+            padding: 16px 0 12px 0;
+            border-bottom: 0.5px solid #1c1c1e;
+        }
+        /* 完美复刻左上角的日历微型图标 */
+        .calendar-icon {
+            position: absolute;
+            left: 18px;
+            top: 18px;
+            width: 18px;
+            height: 16px;
+            border: 1.5px solid #8e8e93;
+            border-radius: 2px;
             box-sizing: border-box;
         }
-
-        /* 统一的定位和修改文字样式 */
-        .editable-text {
+        .calendar-icon::before {
+            content: '';
             position: absolute;
-            background-color: #000000; /* 用纯黑背景盖住原图下方的旧数字 */
-            font-weight: 500;
-            letter-spacing: -0.1px;
-            display: inline-block;
+            top: 3px; left: 0; width: 100%; height: 1.5px;
+            background-color: #8e8e93;
         }
-
-        /* ==================== 1. 顶部总数据区域 ==================== */
-        .main-total {
-            top: 2.1%;
-            left: 50%;
-            transform: translateX(-50%);
+        .total-amount {
             color: #2f80ed;
             font-size: 21px;
             font-weight: 700;
-            background: transparent; /* 顶部背景微调 */
-            letter-spacing: -0.3px;
+            letter-spacing: -0.2px;
+        }
+        .plus-icon {
+            position: absolute;
+            right: 18px;
+            top: 12px;
+            font-size: 26px;
+            color: #2f80ed;
+            font-weight: 300;
         }
 
-        /* ==================== 2. 数据面板面板区 ==================== */
-        .val-balance { top: 7.0%; right: 4.5%; color: #ffffff; font-size: 15px; font-weight: 700; text-align: right; width: 120px; }
-        .val-equity { top: 9.7%; right: 4.5%; color: #ffffff; font-size: 15px; font-weight: 700; text-align: right; width: 120px; }
-        .val-margin { top: 12.3%; right: 4.5%; color: #ffffff; font-size: 15px; font-weight: 700; text-align: right; width: 120px; }
-        /* 负数红色特别高亮 */
-        .val-free-margin { top: 15.0%; right: 4.5%; color: #ff453a; font-size: 15px; font-weight: 700; text-align: right; width: 120px; }
-        .val-level { top: 17.6%; right: 4.5%; color: #ffffff; font-size: 15px; font-weight: 700; text-align: right; width: 120px; }
-
-        /* ==================== 3. 动态列表持仓单 (下方第一笔单子) ==================== */
-        /* 如果您有多笔单子，可以直接用相同逻辑定位叠加 */
-        .order-block {
-            position: absolute;
-            top: 27.2%; /* 精确锁定原图第一行持仓位置 */
-            left: 0;
-            width: 100%;
-            height: 52px;
-            background-color: #000000;
+        /* 数据面板区域 */
+        .account-info {
+            padding: 10px 16px;
         }
-        .symbol-title { position: absolute; top: 4px; left: 16px; color: #ffffff; font-size: 15px; font-weight: 700; }
-        .order-type { position: absolute; top: 6px; left: 95px; color: #ff453a; font-size: 13px; font-weight: 500; }
-        .order-prices { position: absolute; bottom: 4px; left: 16px; color: #8e8e93; font-size: 13px; }
-        .order-profit { position: absolute; top: 12px; right: 16px; color: #2f80ed; font-size: 17px; font-weight: 700; }
-
-        /* 第二笔持仓单遮罩复刻 */
-        .order-block-2 {
-            position: absolute;
-            top: 34.6%; 
-            left: 0;
-            width: 100%;
-            height: 52px;
-            background-color: #000000;
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .info-label {
+            font-size: 14px;
+            color: #8e8e93;
+        }
+        .info-value {
+            font-size: 14px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+        .negative {
+            color: #ff453a !important;
         }
 
-        /* 第三笔持仓单遮罩复刻 */
-        .order-block-3 {
+        /* Positions 栏 */
+        .positions-bar {
+            background-color: #151517;
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 0.5px solid #1c1c1e;
+            border-bottom: 0.5px solid #1c1c1e;
+        }
+        .positions-title {
+            font-size: 13px;
+            color: #8e8e93;
+            font-weight: 500;
+        }
+        .more-dots {
+            color: #8e8e93;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* 可无限上下滑动的订单区 */
+        .order-list {
+            flex: 1;
+            overflow-y: auto;
+            background-color: #000000;
+            padding-bottom: 65px; /* 防止被底部栏挡住 */
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 0.5px solid #1c1c1e;
+        }
+        .order-left {
+            display: flex;
+            flex-direction: column;
+        }
+        .order-title-row {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        .symbol-name {
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .type-sell {
+            color: #ff453a;
+            font-weight: 500;
+            margin-left: 6px;
+            font-size: 14px;
+        }
+        .price-row {
+            font-size: 13px;
+            color: #8e8e93;
+        }
+        .arrow {
+            margin: 0 5px;
+            color: #8e8e93;
+        }
+        .order-right {
+            font-size: 17px;
+            font-weight: 700;
+            color: #2f80ed;
+        }
+
+        /* 底部导航栏：完全利用纯代码路径手绘还原 */
+        .bottom-nav {
             position: absolute;
-            top: 42.0%; 
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 52px;
-            background-color: #000000;
+            height: 58px;
+            background-color: #0c0c0d;
+            border-top: 0.5px solid #1c1c1e;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-sizing: border-box;
+            z-index: 999;
+            padding-bottom: 4px;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #727274;
+            font-size: 10px;
+            width: 20%;
+            position: relative;
+        }
+        .nav-item.active {
+            color: #2f80ed;
+        }
+        .nav-icon-svg {
+            width: 22px;
+            height: 22px;
+            margin-bottom: 3px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.6; /* 100%还原原图极细的雅致线条 */
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        
+        /* 完美复刻原图 Settings 右上角的红色消息通知圈 6 */
+        .notification-badge {
+            position: absolute;
+            top: -2px;
+            right: 16px;
+            background-color: #ff3b30;
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: 700;
+            border-radius: 50%;
+            width: 13px;
+            height: 13px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
 <body>
 
-    <!-- 锁定真机比例的画布 -->
-    <div class="app-sandbox">
+    <!-- 手机独立外壳 -->
+    <div class="phone-container">
 
-        <!-- 1. 顶部总盈利数字 (想改什么直接改这里) -->
-        <div class="editable-text main-total">33 820.00 USD</div>
-
-        <!-- 2. 右侧核心数据面板 (想改哪个数字，直接编辑对应的数值) -->
-        <div class="editable-text val-balance">2 031.36</div>
-        <div class="editable-text val-equity">35 851.36</div>
-        <div class="editable-text val-margin">50 419.03</div>
-        <div class="editable-text val-free-margin">-14 567.67</div>
-        <div class="editable-text val-level">71.11</div>
-
-        <!-- 3. 持仓单列表第 1 行 -->
-        <div class="order-block">
-            <span class="symbol-title">XAUUSDm</span>
-            <span class="order-type">sell 0.2</span>
-            <div class="order-prices">3338.771 &rarr; 3327.810</div>
-            <span class="order-profit">219.22</span>
+        <!-- 1. 顶部总盈利 (所有数据任意随时改) -->
+        <div class="header-total">
+            <div class="calendar-icon"></div>
+            <span class="total-amount">33 820.00 USD</span>
+            <span class="plus-icon">+</span>
         </div>
 
-        <!-- 持仓单列表第 2 行 -->
-        <div class="order-block-2">
-            <span class="symbol-title" style="position: absolute; top: 4px; left: 16px; color: #ffffff; font-size: 15px; font-weight: 700;">XAUUSDm</span>
-            <span class="order-type" style="position: absolute; top: 6px; left: 95px; color: #ff453a; font-size: 13px;">sell 0.2</span>
-            <div class="order-prices" style="position: absolute; bottom: 4px; left: 16px; color: #8e8e93; font-size: 13px;">3338.771 &rarr; 3327.810</div>
-            <span class="order-profit" style="position: absolute; top: 12px; right: 16px; color: #2f80ed; font-size: 17px; font-weight: 700;">219.22</span>
+        <!-- 2. 核心账户资金面板 -->
+        <div class="account-info">
+            <div class="info-row">
+                <span class="info-label">Balance:</span>
+                <span class="info-value">2 031.36</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Equity:</span>
+                <span class="info-value">35 851.36</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Margin:</span>
+                <span class="info-value">50 419.03</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Free Margin:</span>
+                <span class="info-value negative">-14 567.67</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Margin Level (%):</span>
+                <span class="info-value">71.11</span>
+            </div>
         </div>
 
-        <!-- 持仓单列表第 3 行 -->
-        <div class="order-block-3">
-            <span class="symbol-title" style="position: absolute; top: 4px; left: 16px; color: #ffffff; font-size: 15px; font-weight: 700;">XAUUSDm</span>
-            <span class="order-type" style="position: absolute; top: 6px; left: 95px; color: #ff453a; font-size: 13px;">sell 0.2</span>
-            <div class="order-prices" style="position: absolute; bottom: 4px; left: 16px; color: #8e8e93; font-size: 13px;">3338.802 &rarr; 3327.810</div>
-            <span class="order-profit" style="position: absolute; top: 12px; right: 16px; color: #2f80ed; font-size: 17px; font-weight: 700;">219.84</span>
+        <!-- 3. Positions 栏条 -->
+        <div class="positions-bar">
+            <span class="positions-title">Positions</span>
+            <span class="more-dots">...</span>
         </div>
 
-    </div>
+        <!-- 4. 黄金持仓列表区域 (复制行块即可无限增加持仓) -->
+        <div class="order-list">
+            
+            <div class="order-item">
+                <div class="order-left">
+                    <div class="order-title-row">
+                        <span class="symbol-name">XAUUSDm</span>
+                        <span class="type-sell">sell 0.2</span>
+                    </div>
+                    <div class="price-row">
+                        <span>3338.771</span><span class="arrow">→</span><span>3327.810</span>
+                    </div>
+                </div>
+                <div class="order-right">219.22</div>
+            </div>
 
-    <!-- 隐藏的双击强制刷新脚本，确保改动即时生效 -->
-    <script>
-        document.body.addEventListener('dblclick', function() {
-            window.location.reload(true);
-        });
-    </script>
-</body>
-</html>
+            <div class="order-item">
+                <div class="order-left">
+                    <div class="order-title-row">
+                        <span class="symbol-name">XAUUSDm</span>
+                        <span class="type-sell">sell 0.2</span>
+                    </div>
+                    <div class="price-row">
+                        <span>3338.771</span><span class="arrow">→</span><span>3327.810</span>
+                    </div>
+                </div>
+                <div class="order-right">219.22</div>
+            </div>
+
+            <div class="order-item">
+                <div class="order-left">
+                    <div class="order-title-row">
+                        <span class="symbol-name">XAUUSDm</span>
+                        <span class="type-sell">sell 0.2</span>
+                    </div>
+                    <div class="price-row">
+                        <span>3338.802</span><span class="arrow">→</span><span>3327.810</span>
+                    </div>
+                </div>
+                <div class="order-right">219.84</div>
+            </div>
+
+            <div class="order-item">
+                <div class="order-left">
+                    <div class="order-title-row">
+                        <span class="symbol-name">XAUUSDm</span>
+                        <span class="type-sell">sell 0.2</span>
+                    </div>
+                    <div class="price-row">
+                        <span>3338.802</span><span class="arrow">→</span><span>3327.810</span>
+                    </div>
+                </div>
+                <div class="order-right">219.84</div>
+            </div>
+
+            <div class="order-item">
+                <div class="order-left">
+                    <div class="order-title-row">
+                        <span class="symbol-name">XAUUSDm</span>
