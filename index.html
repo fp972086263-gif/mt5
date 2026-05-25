@@ -471,6 +471,55 @@ for(let i = 0; i < 15; i++){
 }
 
 </script>
+<script>
 
+const tradeList = document.getElementById("tradeList");
+
+for(let i = 0; i < 15; i++){
+
+    tradeList.innerHTML += `
+
+        <div class="trade-item">
+
+            <div class="trade-left">
+
+                <div class="symbol">
+                    XAUUSDm <span class="sell">sell 0.2</span>
+                </div>
+
+                <div class="price">
+                    3338.771 → 3327.810
+                </div>
+
+            </div>
+
+            <div class="profit">
+                219.22
+            </div>
+
+        </div>
+
+    `;
+}
+
+/* 双击刷新 */
+
+let lastTap = 0;
+
+document.addEventListener("touchend", function(){
+
+    const now = Date.now();
+
+    if(now - lastTap < 300){
+
+        location.reload();
+
+    }
+
+    lastTap = now;
+
+});
+
+</script>
 </body>
 </html>
