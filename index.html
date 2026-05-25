@@ -3,345 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MT5 Pure Dark Mode Perfect</title>
+    <title>MT5 100% Perfect Mode</title>
     <style>
+        /* 引入与手机版系统最契合的专业数字字体 */
         @import url('https://googleapis.com');
         
-        /* 核心修复：让网页背景变灰，在中间强制画一个独立的手机屏幕 */
         html, body {
             margin: 0;
             padding: 0;
-            background-color: #1c1c1e; /* 电脑端周围变深灰，衬托手机界面 */
-            font-family: 'Roboto', -apple-system, sans-serif;
+            background-color: #000000;
             width: 100%;
-            height: 100vh;
+            height: 100%;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            font-family: 'Roboto', -apple-system, sans-serif;
             overflow: hidden;
         }
 
-        /* 模拟一台标准的安卓手机容器 */
-        .phone-container {
-            width: 100%;
-            max-width: 412px; /* 严格限制最大宽度为标准安卓手机尺寸 */
-            height: 100%;
-            max-height: 860px; /* 严格限制最大高度 */
-            background-color: #000000; /* 手机内部纯黑 */
-            box-shadow: 0 0 30px rgba(0,0,0,0.7);
+        /* 核心沙盒：直接以真机原图作为基础背景，确保图标和排版100%一致 */
+        .app-sandbox {
             position: relative;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            width: 100%;
+            max-width: 412px; /* 完美锁定手机端宽度 */
+            height: 100vh;
+            background-image: url('https://postimg.cc');
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
             box-sizing: border-box;
         }
 
-        /* 顶部总盈利 */
-        .header-total {
-            position: relative;
-            text-align: center;
-            padding: 16px 0 12px 0;
-            border-bottom: 0.5px solid #1c1c1e;
+        /* 统一的定位和修改文字样式 */
+        .editable-text {
+            position: absolute;
+            background-color: #000000; /* 用纯黑背景盖住原图下方的旧数字 */
+            font-weight: 500;
+            letter-spacing: -0.1px;
+            display: inline-block;
         }
-        .total-amount {
+
+        /* ==================== 1. 顶部总数据区域 ==================== */
+        .main-total {
+            top: 2.1%;
+            left: 50%;
+            transform: translateX(-50%);
             color: #2f80ed;
             font-size: 21px;
             font-weight: 700;
-            letter-spacing: -0.2px;
+            background: transparent; /* 顶部背景微调 */
+            letter-spacing: -0.3px;
         }
-        .plus-icon {
+
+        /* ==================== 2. 数据面板面板区 ==================== */
+        .val-balance { top: 7.0%; right: 4.5%; color: #ffffff; font-size: 15px; font-weight: 700; text-align: right; width: 120px; }
+        .val-equity { top: 9.7%; right: 4.5%; color: #ffffff; font-size: 15px; font-weight: 700; text-align: right; width: 120px; }
+        .val-margin { top: 12.3%; right: 4.5%; color: #ffffff; font-size: 15px; font-weight: 700; text-align: right; width: 120px; }
+        /* 负数红色特别高亮 */
+        .val-free-margin { top: 15.0%; right: 4.5%; color: #ff453a; font-size: 15px; font-weight: 700; text-align: right; width: 120px; }
+        .val-level { top: 17.6%; right: 4.5%; color: #ffffff; font-size: 15px; font-weight: 700; text-align: right; width: 120px; }
+
+        /* ==================== 3. 动态列表持仓单 (下方第一笔单子) ==================== */
+        /* 如果您有多笔单子，可以直接用相同逻辑定位叠加 */
+        .order-block {
             position: absolute;
-            right: 18px;
-            top: 12px;
-            font-size: 26px;
-            color: #2f80ed;
-            font-weight: 300;
-        }
-
-        /* 数据面板 */
-        .account-info {
-            padding: 10px 16px;
-        }
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-        }
-        .info-label {
-            font-size: 14px;
-            color: #8e8e93;
-        }
-        .info-value {
-            font-size: 14px;
-            color: #ffffff;
-            font-weight: 700;
-        }
-        .negative {
-            color: #ff453a !important;
-        }
-
-        /* Positions 栏 */
-        .positions-bar {
-            background-color: #151517;
-            padding: 8px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 0.5px solid #1c1c1e;
-            border-bottom: 0.5px solid #1c1c1e;
-        }
-        .positions-title {
-            font-size: 13px;
-            color: #8e8e93;
-            font-weight: 500;
-        }
-        .more-dots {
-            color: #8e8e93;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        /* 订单列表 */
-        .order-list {
-            flex: 1;
-            overflow-y: auto;
-            background-color: #000000;
-            padding-bottom: 65px; /* 留出底部空间 */
-        }
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 16px;
-            border-bottom: 0.5px solid #1c1c1e;
-        }
-        .order-left {
-            display: flex;
-            flex-direction: column;
-        }
-        .order-title-row {
-            font-size: 15px;
-            margin-bottom: 4px;
-        }
-        .symbol-name {
-            font-weight: 700;
-            color: #ffffff;
-        }
-        .type-sell {
-            color: #ff453a;
-            font-weight: 500;
-            margin-left: 6px;
-            font-size: 14px;
-        }
-        .price-row {
-            font-size: 13px;
-            color: #8e8e93;
-        }
-        .arrow {
-            margin: 0 5px;
-            color: #8e8e93;
-        }
-        .order-right {
-            font-size: 17px;
-            font-weight: 700;
-            color: #2f80ed;
-        }
-
-        /* 核心修正：让底部栏相对于手机容器定位，不再往电脑屏幕最底下掉 */
-        .bottom-nav {
-            position: absolute;
-            bottom: 0;
+            top: 27.2%; /* 精确锁定原图第一行持仓位置 */
             left: 0;
             width: 100%;
-            height: 56px;
-            background-color: #0c0c0d;
-            border-top: 0.5px solid #1c1c1e;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            box-sizing: border-box;
-            z-index: 999;
-            padding-bottom: 4px;
+            height: 52px;
+            background-color: #000000;
         }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #727274;
-            font-size: 10px;
-            width: 20%;
-        }
-        .nav-item.active {
-            color: #2f80ed;
-        }
-        
-        .icon-box {
-            width: 22px;
-            height: 22px;
-            margin-bottom: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* Quotes */
-        .icon-quotes {
-            width: 14px;
-            height: 14px;
-            border-left: 1.5px solid #727274;
-            border-right: 1.5px solid #727274;
-            position: relative;
-        }
-        .icon-quotes::before {
-            content: '';
+        .symbol-title { position: absolute; top: 4px; left: 16px; color: #ffffff; font-size: 15px; font-weight: 700; }
+        .order-type { position: absolute; top: 6px; left: 95px; color: #ff453a; font-size: 13px; font-weight: 500; }
+        .order-prices { position: absolute; bottom: 4px; left: 16px; color: #8e8e93; font-size: 13px; }
+        .order-profit { position: absolute; top: 12px; right: 16px; color: #2f80ed; font-size: 17px; font-weight: 700; }
+
+        /* 第二笔持仓单遮罩复刻 */
+        .order-block-2 {
             position: absolute;
-            top: 2px; left: -4px;
-            border-left: 3px solid transparent;
-            border-right: 3px solid transparent;
-            border-bottom: 4px solid #727274;
-        }
-        .icon-quotes::after {
-            content: '';
-            position: absolute;
-            bottom: 2px; right: -4px;
-            border-left: 3px solid transparent;
-            border-right: 3px solid transparent;
-            border-top: 4px solid #727274;
+            top: 34.6%; 
+            left: 0;
+            width: 100%;
+            height: 52px;
+            background-color: #000000;
         }
 
-        /* Chart */
-        .icon-chart {
-            width: 16px;
-            height: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            position: relative;
-            border-bottom: 1.5px solid #727274;
-        }
-        .icon-chart span {
-            width: 3px;
-            background-color: #727274;
-        }
-        .icon-chart span:nth-child(1) { height: 6px; }
-        .icon-chart span:nth-child(2) { height: 11px; }
-        .icon-chart span:nth-child(3) { height: 8px; }
-        .icon-chart::before {
-            content: '';
+        /* 第三笔持仓单遮罩复刻 */
+        .order-block-3 {
             position: absolute;
-            top: 2px; left: 0; width: 14px; height: 6px;
-            border-top: 1.5px solid #727274;
-            transform: rotate(15deg);
-        }
-
-        /* Trade */
-        .icon-trade {
-            width: 16px;
-            height: 13px;
-            border: 1.5px solid #2f80ed;
-            border-radius: 1px;
-            position: relative;
-        }
-        .icon-trade::before {
-            content: '';
-            position: absolute;
-            top: 4px; left: 2px;
-            width: 10px; height: 3px;
-            border-top: 1.5px solid #2f80ed;
-            border-left: 1.5px solid #2f80ed;
-            transform: rotate(10deg);
-        }
-
-        /* History */
-        .icon-history {
-            width: 14px;
-            height: 14px;
-            border: 1.5px solid #727274;
-            border-radius: 50%;
-            position: relative;
-        }
-        .icon-history::before {
-            content: '';
-            position: absolute;
-            top: 3px; left: 6px;
-            width: 1px; height: 4px;
-            background-color: #727274;
-        }
-        .icon-history::after {
-            content: '';
-            position: absolute;
-            top: 7px; left: 6px;
-            width: 3px; height: 1px;
-            background-color: #727274;
-        }
-
-        /* Messages */
-        .icon-messages {
-            width: 14px;
-            height: 14px;
-            border: 1.5px solid #727274;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .icon-messages::before {
-            content: '';
-            width: 4px;
-            height: 4px;
-            background-color: #727274;
-            border-radius: 50%;
+            top: 42.0%; 
+            left: 0;
+            width: 100%;
+            height: 52px;
+            background-color: #000000;
         }
     </style>
 </head>
 <body>
 
-    <!-- 外层包裹手机容器 -->
-    <div class="phone-container">
+    <!-- 锁定真机比例的画布 -->
+    <div class="app-sandbox">
 
-        <!-- 1. 顶部总盈利 -->
-        <div class="header-total">
-            <span class="total-amount">33 820.00 USD</span>
-            <span class="plus-icon">+</span>
+        <!-- 1. 顶部总盈利数字 (想改什么直接改这里) -->
+        <div class="editable-text main-total">33 820.00 USD</div>
+
+        <!-- 2. 右侧核心数据面板 (想改哪个数字，直接编辑对应的数值) -->
+        <div class="editable-text val-balance">2 031.36</div>
+        <div class="editable-text val-equity">35 851.36</div>
+        <div class="editable-text val-margin">50 419.03</div>
+        <div class="editable-text val-free-margin">-14 567.67</div>
+        <div class="editable-text val-level">71.11</div>
+
+        <!-- 3. 持仓单列表第 1 行 -->
+        <div class="order-block">
+            <span class="symbol-title">XAUUSDm</span>
+            <span class="order-type">sell 0.2</span>
+            <div class="order-prices">3338.771 &rarr; 3327.810</div>
+            <span class="order-profit">219.22</span>
         </div>
 
-        <!-- 2. 资金数据面板 -->
-        <div class="account-info">
-            <div class="info-row">
-                <span class="info-label">Balance:</span>
-                <span class="info-value">2 031.36</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Equity:</span>
-                <span class="info-value">35 851.36</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Margin:</span>
-                <span class="info-value">50 419.03</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Free Margin:</span>
-                <span class="info-value negative">-14 567.67</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Margin Level (%):</span>
-                <span class="info-value">71.11</span>
-            </div>
+        <!-- 持仓单列表第 2 行 -->
+        <div class="order-block-2">
+            <span class="symbol-title" style="position: absolute; top: 4px; left: 16px; color: #ffffff; font-size: 15px; font-weight: 700;">XAUUSDm</span>
+            <span class="order-type" style="position: absolute; top: 6px; left: 95px; color: #ff453a; font-size: 13px;">sell 0.2</span>
+            <div class="order-prices" style="position: absolute; bottom: 4px; left: 16px; color: #8e8e93; font-size: 13px;">3338.771 &rarr; 3327.810</div>
+            <span class="order-profit" style="position: absolute; top: 12px; right: 16px; color: #2f80ed; font-size: 17px; font-weight: 700;">219.22</span>
         </div>
 
-        <!-- 3. Positions 横条 -->
-        <div class="positions-bar">
-            <span class="positions-title">Positions</span>
-            <span class="more-dots">...</span>
+        <!-- 持仓单列表第 3 行 -->
+        <div class="order-block-3">
+            <span class="symbol-title" style="position: absolute; top: 4px; left: 16px; color: #ffffff; font-size: 15px; font-weight: 700;">XAUUSDm</span>
+            <span class="order-type" style="position: absolute; top: 6px; left: 95px; color: #ff453a; font-size: 13px;">sell 0.2</span>
+            <div class="order-prices" style="position: absolute; bottom: 4px; left: 16px; color: #8e8e93; font-size: 13px;">3338.802 &rarr; 3327.810</div>
+            <span class="order-profit" style="position: absolute; top: 12px; right: 16px; color: #2f80ed; font-size: 17px; font-weight: 700;">219.84</span>
         </div>
 
-        <!-- 4. 持仓列表 -->
-        <div class="order-list">
-            <div class="order-item">
-                <div class="order-left">
-                    <div class="order-title-row">
-                        <span class="symbol-name">XAUUSDm</span>
-                        <span class="type-sell">sell 0.2</span>
-                    </div>
+    </div>
+
+    <!-- 隐藏的双击强制刷新脚本，确保改动即时生效 -->
+    <script>
+        document.body.addEventListener('dblclick', function() {
+            window.location.reload(true);
+        });
+    </script>
+</body>
+</html>
